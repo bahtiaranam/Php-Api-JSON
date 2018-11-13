@@ -1,45 +1,17 @@
-<?php 
-	include "koneksi.php";
+<?php
+	require_once'koneksi.php';
+	$query='SELECT*FROM siswa WHERE id = 1';
+	$sql=mysqli_query($koneksi,$query);
+	$siswa=array();
+
+	while ($row = mysqli_fetch_array($sql)) {
+		array_push($siswa,array(
+			'<br>id siswa' => $row ['id'],
+			'nama siswa' => $row ['nama'],
+			'kelas siswa' => $row ['kelas']
+		));
+	}
+	echo json_encode($siswa);
+
+	mysqli_close($koneksi);
  ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login Page</title>
-</head>
-<body>
-	<table>
-		<tr>
-			<td colspan="5">
-				<td>DATA</td>
-				<a href="tambah.php">Tambah</a>
-			</td>
-		</tr>
-		<tr>
-			<th>id</th>
-			<th>Username</th>
-			<th>Password</th>
-			<th>Level</th>
-			<th>Fullname</th>
-		</tr>
-			<?php 
-				$qry = mysqli_query($koneksi,"SELECT * FROM users");
-				while($user = mysqli_fetch_array($qry)){
-			 ?>
-		<tr>
-			<td><?php echo $user['id']; ?></td>
-			<td><?php echo $user['username']; ?></td>
-			<td><?php echo $user['password']; ?></td>
-			<td><?php echo $user['level']; ?></td>
-			<td><?php echo $user['fullname']; ?></td>
-			<td>
-			<a onclick="return confirm('Yakin untuk menghapus ?')"
-			href="hapus.php?id=<?php echo $user['id']; ?>">Hapus Data</a>
-			<a href="edit.php?id=<?php echo $user['id']; ?>">Edit</a>
-			</td>
-		</tr>
-		<?php  
-		}
-		?>
-	</table>
-</body>
-</html>
